@@ -9,12 +9,12 @@ class Review extends Model
 {
     private $table = 'reviews';
 
-    public function getAllReviews()
+    public function all()
     {
         return R::findAll($this->table);
     }
 
-    public function addReviewData($data)
+    public function add($data)
     {
         $review = R::dispense($this->table);
         $review->title = $data['title'];
@@ -28,7 +28,7 @@ class Review extends Model
         return R::store($review);
     }
 
-    public function addReviewPhotos($data, $reviewId)
+    public function addPhotos($data, $reviewId)
     {
         $review = R::load($this->table, $reviewId);
         foreach ($data as $item) {
