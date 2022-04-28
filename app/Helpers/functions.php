@@ -37,18 +37,22 @@ function re_array_files($files) {
 }
 
 if (!function_exists('upload_images')) {
-    function upload_images($images, $dir)
+    function upload_images($key, $destination)
     {
-        $images = re_array_files($images);
-        $photos = [];
-        foreach ($images as $image) {
-            $newFileExt = pathinfo($image['name'], PATHINFO_EXTENSION);
-            $newFileName = 'img_' . md5($image['name'] . time()) . '.' . $newFileExt;
-            $destPath = $dir . $newFileName;
-            if (move_uploaded_file($image['tmp_name'], $destPath)) {
-                $photos[] = $newFileName;
+        if (!empty($_FILES[$key])) {
+            $images = re_array_files($_FILES[$key]);
+            $photos = [];
+            foreach ($images as $image) {
+                $newFileExt = pathinfo($image['name'], PATHINFO_EXTENSION);
+                $newFileName = 'img_' . md5($image['name'] . time()) . '.' . $newFileExt;
+                $destPath = $destination . $newFileName;
+                if (move_uploaded_file($image['tmp_name'], $destPath)) {
+                    $photos[] = $newFileName;
+                }
             }
+            return $photos;
         }
-        return $photos;
+        return false;
+
     }
 }
