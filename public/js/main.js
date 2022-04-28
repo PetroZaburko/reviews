@@ -73,7 +73,7 @@ $(document).ready(function () {
 
 
                 let divPhotos = '';
-                if (response.photos.length) {
+                if (response.photos) {
                     let allPhotos = '';
                     $.each(response.photos, function (key, value) {
                         allPhotos +=
@@ -133,11 +133,9 @@ $(document).ready(function () {
                 $('#all_reviews').append(divNewReview);
             },
             error: function (reject) {
-                if (reject.status === 422) {
-                    let errors = $.parseJSON(reject.responseText);
-                    $('.modal-message-info').html('<div class="alert alert-danger">' + errors + '</div>');
-                    $('.modal-message-info').slideDown(1000).delay(5000).slideUp(1000);
-                }
+                let errors = $.parseJSON(reject.responseText);
+                $('.modal-message-info').html('<div class="alert alert-danger">' + errors + '</div>');
+                $('.modal-message-info').slideDown(1000).delay(5000).slideUp(1000);
             }
         });
     }
